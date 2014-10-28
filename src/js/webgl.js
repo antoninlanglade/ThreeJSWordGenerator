@@ -3,7 +3,8 @@ var Webgl = (function(){
     function Webgl(width, height){
         var self = this;
 
-        this.letterBlocks = [];
+        this.blocks = [];
+        this.coords = [];
         
         this.size = {
             width : width,
@@ -64,25 +65,25 @@ var Webgl = (function(){
     };
     Webgl.prototype.sentenceHandler = function(sentence){
         var self = this;
+        var coords = [];
 
         this.arrayOfWords = sentence.split(' ');
         this.arrayOfChars = [];
         this.arrayOfWords.forEach(function(item){
             self.arrayOfChars.push(item.split(''));
         });
+
+        var offset = {
+            vertical : (self.arrayOfChars.length * (self.box.height * self.boxSize.height) + self.spaceLine * (self.arrayOfChars.length - 1)) /2,
+            horizontal : 0
+        };
+
+        // Delete blank
         for(var i = 0; i < self.arrayOfChars.length; i++){
             if(self.arrayOfChars[i].length == 0){
                 self.arrayOfChars.splice(i,1);
             }
         }
-        this.prepareBlocks();
-    };
-    Webgl.prototype.prepareBlocks = function(){
-        var self = this;
-        var offset = {
-            vertical : (self.arrayOfChars.length * (self.box.height * self.boxSize.height) + self.spaceLine * (self.arrayOfChars.length - 1)) /2,
-            horizontal : 0
-        };
 
         self.arrayOfChars.forEach(function(item){
             var countWord = item.length;
@@ -92,7 +93,38 @@ var Webgl = (function(){
 
             item.forEach(function(subitem){
 
-                    self.createBlock(subitem, offset, function(){});    
+                if(self.data[subitem]){
+
+                    var verticalOffset = offset.vertical;
+
+                    // if(self.firstTime == false){
+                    //     console.log(self.letterBlocks);
+
+                    // }
+
+                    self.data[subitem].forEach(function(item){
+                        var horizontalOffset = offset.horizontal;
+
+                        item.forEach(function(item){
+
+                            if(item == 1){
+                                // if(self.firstTime == false) {
+                                //     // Reorder Object
+                                //     self.reorderBlocks(horizontalOffset, verticalOffset)
+                                // }
+                                // else{
+                                    // Create object
+                                    coords.push([horizontalOffset, verticalOffset]);
+                                // }
+                            }
+                            // Change Row Position into line
+                            horizontalOffset += self.boxSize.width;
+                        });
+
+                        // Change line
+                        verticalOffset -= self.boxSize.height ;
+                    });
+                }
 
                 offset.horizontal += (self.box.width*self.boxSize.width) + self.spaceLetter;
             });
@@ -100,67 +132,77 @@ var Webgl = (function(){
             // Offset Vertical of a line
             offset.vertical -= (self.box.height*self.boxSize.height) + self.spaceLine;
         });
+
+
+this.createBlock(coords);
+
+
+        // Return [[ligne, colonne], [ligne, colonne], .....]
+        // Animate ()
+        // this.blocks = [];
+
+        // 
+
+        this.prepareBlocks();
+    };
+    Webgl.prototype.prepareBlocks = function(){
+        var self = this;
+        
+        
         self.firstTime = false;
     };
-    Webgl.prototype.createBlock = function(letter, offset, callback){
+    Webgl.prototype.createBlock = function(coords){
         var self = this;
-        if(self.data[letter]){
-            var blocks = [],
-            verticalOffset = offset.vertical;
 
-            if(self.firstTime == false){
-                this.reorderArray = _.flatten(self.letterBlocks);
+        var nblocks = 0;
+
+        if (coords.length < self.blocks.length) {
+            //supprimer des blocks
+            var start = coords.length;
+            var end = self.blocks.length - coords.length;
+
+            for(var i = start; i < self.blocks.length; i++) {
+                self.scene.remove(self.blocks[i]);
             }
+            self.blocks.splice(start, end);
+        } else {
+            //rajourter des
+            nblocks = coords.length - self.blocks.length;
 
-            self.data[letter].forEach(function(item){
-                var horizontalOffset = offset.horizontal;
-
-                item.forEach(function(item){
-
-                    if(item == 1){
-                        if(self.firstTime == false) {
-                            // Reorder Object
-                            self.reorderBlocks(horizontalOffset, verticalOffset)
-                        }
-                        else{
-                            // Create object
-                            var block = new Square(self.boxSize);
-                            block.position.set(horizontalOffset, verticalOffset, 0);
-                            self.scene.add(block);
-                            blocks.push(block);
-                        }
-                    }
-                    // Change Row Position into line
-                    horizontalOffset += self.boxSize.width ;
-                });
-
-                // Change line
-                verticalOffset -= self.boxSize.height ;
-            });
-            self.letterBlocks.push(blocks);
+            for (var i = 0; i < nblocks; i++) {
+                var block = new Square(self.boxSize);
+                self.scene.add(block);
+                self.blocks.push(block);
+            };
         }
-        callback.call(self);
-    };
-    Webgl.prototype.reorderBlocks = function(horizontalOffset, verticalOffset){
-        var self = this;
 
-        // var randomLetter = Math.floor((Math.random() * self.letterBlocks.length ));
-        
-        
-        TweenMax.to(self.reorderArray[self.currentIndex].position , 1, {
-            x : horizontalOffset, 
-            y : verticalOffset
+        self.coords = _.shuffle(coords);
+
+        self.coords.forEach(function (coord, i) {
+            TweenMax.to(self.blocks[i].position , 1, {
+                x: coord[0], 
+                y: coord[1]
+            });
         });
-        
-        self.currentIndex++;
-        // console.log(randomLetter,randomBlock);
-        // console.log('start',self.letterBlocks);
-        // // TODO
-
-        // self.letterBlocks[randomLetter].splice(randomBlock,1);
-
-        // console.log('end',self.letterBlocks);
     };
+    // Webgl.prototype.reorderBlocks = function(horizontalOffset, verticalOffset){
+    //     var self = this;
+        
+    //     if(self.currentIndex < self.letterBlocks.length){
+    //         TweenMax.to(self.letterBlocks[self.currentIndex].position , 1, {
+    //             x : horizontalOffset, 
+    //             y : verticalOffset
+    //         });
+            
+    //         self.currentIndex++;
+    //     }
+    //     else{
+    //         var block = new Square(self.boxSize);
+    //         block.position.set(horizontalOffset, verticalOffset, 0);
+    //         self.scene.add(block);
+    //         self.letterBlocks.push(block);
+    //     }
+    // };
     Webgl.prototype.resize = function(width, height) {
         this.camera.aspect = width / height;
         this.camera.updateProjectionMatrix();
@@ -175,12 +217,10 @@ var Webgl = (function(){
     Webgl.prototype.render = function() {    
         var self = this;
         this.renderer.render(this.scene, this.camera);
-        if(self.letterBlocks){
-            self.letterBlocks.forEach(function(item){
-                item.forEach(function(item){
-                    var rotate = Math.floor((Math.random() * 2));
-                    item.update(rotate);
-                });
+        if(self.blocks){
+            self.blocks.forEach(function(item){
+                var rotate = Math.floor((Math.random() * 2));
+                item.update(rotate);
             });
         }
     };

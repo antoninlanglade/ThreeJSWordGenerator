@@ -8,7 +8,7 @@ var Square = (function(){
         var geometry = new THREE.BoxGeometry(params.width, params.height, params.depth);
         var material = new THREE.MeshLambertMaterial({map : THREE.ImageUtils.loadTexture('./assets/img/shader-front.png')});
         this.mesh = new THREE.Mesh(geometry, material);
-        // this.add(this.mesh);
+        this.add(this.mesh);
         this.particleSystem();
     }
 
