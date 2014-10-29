@@ -3,14 +3,21 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Word Generator</title>
+    <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>	
+    <audio autoplay loop>
+      <!-- <source src="assets/audio/audio.ogg" type="audio/ogg"> -->
+      <source src="assets/audio/audio.mp3" type="audio/mpeg">
+    </audio>
     <div class="input">
-        <form id="formSentence">
-            <input type="text" name="sentence">
-            <input type="submit" name="submit">
-        </form>
+        <div class="content">
+            <form id="formSentence">
+                <input type="text" autocomplete="off" name="sentence" />
+                <input type="submit" name="submit" value="" />
+            </form>
+        </div>
     </div>
     <div class="three"></div>
     <script src="assets/lib/dat-gui/build/dat.gui.min.js"></script>

@@ -8,7 +8,8 @@ var Square = (function(){
         var geometry = new THREE.BoxGeometry(params.width, params.height, params.depth);
         var material = new THREE.MeshLambertMaterial({map : THREE.ImageUtils.loadTexture('./assets/img/shader-front.png')});
         this.mesh = new THREE.Mesh(geometry, material);
-        this.add(this.mesh);
+
+        // this.add(this.mesh);
         this.particleSystem();
     }
 
@@ -57,9 +58,13 @@ var Square = (function(){
 
         geometry.computeBoundingSphere();
 
-        var material = new THREE.PointCloudMaterial( { size: 4, vertexColors: THREE.VertexColors } );
+        this.particleMaterial = new THREE.PointCloudMaterial( { size: 4, vertexColors: THREE.VertexColors } );
 
-        particleSystem = new THREE.PointCloud( geometry, material );
+        this.particleMaterial.needsUpdate = true;
+        this.particleMaterial.transparent = true;
+        this.particleMaterial.opacity = 0;
+
+        particleSystem = new THREE.PointCloud( geometry, this.particleMaterial );
         self.add(particleSystem);
     };
 
