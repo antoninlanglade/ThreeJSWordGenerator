@@ -7,19 +7,22 @@
 	<link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>	
-    <audio autoplay loop>
-      <!-- <source src="assets/audio/audio.ogg" type="audio/ogg"> -->
-      <source src="assets/audio/audio.mp3" type="audio/mpeg">
-    </audio>
-    <div class="input">
-        <div class="content">
-            <form id="formSentence">
-                <input type="text" autocomplete="off" name="sentence" />
-                <!-- <input type="submit" name="submit" value="" /> -->
-            </form>
+    <div class="title">Words</div>
+    <div class="container">
+        <audio autoplay loop>
+          <!-- <source src="assets/audio/audio.ogg" type="audio/ogg"> -->
+          <source src="assets/audio/audio.mp3" type="audio/mpeg">
+        </audio>
+        <div class="input">
+            <div class="content">
+                <form id="formSentence">
+                    <input type="text" autocomplete="off" name="sentence" />
+                    <!-- <input type="submit" name="submit" value="" /> -->
+                </form>
+            </div>
         </div>
+        <div class="three"></div>
     </div>
-    <div class="three"></div>
     <script src="assets/lib/dat-gui/build/dat.gui.min.js"></script>
     <script src="assets/lib/jquery/dist/jquery.min.js"></script>
 	<script src="assets/lib/stats.js/build/stats.min.js"></script>

@@ -7,6 +7,13 @@ body, html {
     font-family: 'Montserrat', sans-serif;
     background: #27ae60;
 }
+.container{
+	-webkit-filter: blur(5px);
+	-moz-filter: blur(5px);
+	-o-filter: blur(5px);
+	-ms-filter: blur(5px);
+	filter: blur(5px);
+}
 .input{
 	position: fixed;
 	top: 30px;
@@ -28,7 +35,7 @@ body, html {
 	background: none;
 	border: none;
 	color: white;
-	width: 90%;
+	width: calc(100% - 20px);
 	padding: 10px;
 	text-align: center;
 	text-transform: uppercase;
@@ -39,4 +46,15 @@ body, html {
 }
 input:focus, input:active{
 	outline: 0;
+}
+.title{
+	color: white;
+	text-transform: uppercase;
+	font-size: 100px;
+	width: 400px;
+	height: 100px;
+	position: fixed;
+	left: -40%;
+	margin-left: -200px;
+	top: calc(50% - 50px);
 }

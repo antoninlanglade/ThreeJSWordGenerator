@@ -18,6 +18,18 @@ function init(){
     $(window).on('resize', resizeHandler);
     submitHandler(webgl);
     animate();
+
+    TweenMax.to($('.title'), 0.75, {
+        delay : 0.5,
+        left : '50%',
+        ease : Expo.easeInOut,
+        onComplete : function(){
+            TweenMax.to($('.title'), 0.75, {
+                delay : 0.5,
+                left : '120%',
+            });
+        }
+    });
 }
 
 function resizeHandler() {
