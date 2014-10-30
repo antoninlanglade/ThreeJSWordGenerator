@@ -35,7 +35,7 @@ var Webgl = (function(){
     Webgl.prototype.init = function(){
         var self = this;
 
-        $.get( "src/js/objects/letters.json", function( data ) {
+        $.get( "assets/json/letters.json", function( data ) {
             self.data = data;
             if(this.sentence != null){
                 this.sentenceHandler(this.sentence);
@@ -219,7 +219,6 @@ var Webgl = (function(){
             width : width,
             height : height
         };
-
     };
     Webgl.prototype.render = function() {    
         var self = this;

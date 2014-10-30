@@ -11,7 +11,7 @@ var Square = (function(){
 
         // this.add(this.mesh);
         this.particleSystem();
-    }
+    };
 
     Square.prototype = new THREE.Object3D;
     Square.prototype.constructor = Square;
