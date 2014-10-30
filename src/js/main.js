@@ -1,4 +1,4 @@
-var webgl, gui;
+var webgl, gui, rotX = 0, rotZ = 0;
 
 $(document).ready(init);
 var stats = new Stats();
@@ -19,26 +19,50 @@ function init(){
     submitHandler(webgl);
     animate();
 
-    TweenMax.to($('.title'), 0.75, {
+    var $title = $('.title');
+    var $container = $('.container');
+
+    TweenMax.to($title, 0.75, {
         delay : 0.5,
         left : '50%',
         ease : Expo.easeInOut,
         onComplete : function(){
-            TweenMax.to($('.title'), 0.75, {
+            TweenMax.to($title, 0.75, {
                 delay : 0.5,
                 left : '120%',
+                onComplete : function(){
+                    $('input[name="sentence"').focus();
+                }
+            });
+            $container.css({
+                '-webkit-filter': 'none',
+                'filter': 'none'
             });
         }
     });
-}
 
+    $('body').on('mousemove', function(e) {
+        var posX = e.pageX,
+            posY = e.pageY,
+            width = window.innerWidth,
+            height = window.innerHeight;
+
+            rotX =  ( (Math.cos((posX - width/2)/(width/2)*Math.PI/3.5))) * 1000;
+            rotZ =  ( (Math.sin((posX - width/2)/(width/2)*Math.PI/3.5))) * 1000;
+             
+    });
+
+}
+function mouseHandler(){
+
+}
 function resizeHandler() {
     webgl.resize(window.innerWidth, window.innerHeight);
 }
 
 function submitHandler(webgl){
 	console.log('ok');
-    $('input[name="sentence"').focus();
+    
 	$('#formSentence').on('submit',function(e){
 		e.preventDefault();
 		webgl.sentenceHandler($('input[name="sentence"]').val().trim().toLowerCase());
@@ -71,8 +95,15 @@ function submitHandler(webgl){
 };
 
 function animate() {
+    requestAnimationFrame(animate);
+
     stats.begin();
     stats.end();
-    requestAnimationFrame(animate);
+    // webgl.camera.position.set(rotZ, 0, rotX);
+    webgl.camera.position.x += (rotZ - webgl.camera.position.x) * 0.1;
+    webgl.camera.position.z += (rotX - webgl.camera.position.z) * 0.1;
+    webgl.camera.lookAt(new THREE.Vector3(0,0,0));
     webgl.render();
+
+    
 }

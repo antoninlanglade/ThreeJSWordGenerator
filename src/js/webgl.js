@@ -182,8 +182,10 @@ var Webgl = (function(){
         self.coords = _.shuffle(coords);
 
         self.coords.forEach(function (coord, i) {
+            var xSign = Math.floor((Math.random() * 2));
+            var zSign = Math.floor((Math.random() * 2));
             TweenMax.to(self.blocks[i].position , 1.35, {
-                bezier : [{ x : 0, y : 0 , z : 700},{ x : coord[0] , y : coord[1], z : 0}],
+                bezier : [{ x : xSign==0?-(Math.random() * 2)*700:(Math.random() * 2)*700, y : 0 , z : zSign==0?-(Math.random() * 2)*700:(Math.random() * 2)*700},{ x : coord[0] , y : coord[1], z : 0}],
                 ease : Quad.easeOut, 
                 delay : i*0.0005
             });

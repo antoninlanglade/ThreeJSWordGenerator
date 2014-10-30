@@ -19,7 +19,7 @@ var Square = (function(){
     Square.prototype.particleSystem = function(){
         var self = this;
 
-        var particles = 40,
+        var particles = 60,
          geometry = new THREE.BufferGeometry(),
          color = new THREE.Color(),
          positions = new Float32Array( particles * 3 ),
@@ -58,7 +58,7 @@ var Square = (function(){
 
         geometry.computeBoundingSphere();
 
-        this.particleMaterial = new THREE.PointCloudMaterial( { size: 4, vertexColors: THREE.VertexColors } );
+        this.particleMaterial = new THREE.PointCloudMaterial( { size: 3, vertexColors: THREE.VertexColors } );
 
         this.particleMaterial.needsUpdate = true;
         this.particleMaterial.transparent = true;

@@ -16,6 +16,7 @@
     "dat-gui": "~0.5.0"
   },
   "dependencies": {
-    "underscore": "~1.7.0"
+    "underscore": "~1.7.0",
+    "stats.js": "*"
   }
 }
