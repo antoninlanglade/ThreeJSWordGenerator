@@ -1,11 +1,19 @@
 var webgl, gui;
 
 $(document).ready(init);
-
+var stats = new Stats();
+  
 function init(){
     webgl = new Webgl(window.innerWidth, window.innerHeight);
     $('.three').append(webgl.renderer.domElement);
 
+    stats.setMode(1); // 0: fps, 1: ms    
+    // align top-left
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.left = '0px';
+    stats.domElement.style.bottom = '0px';
+
+    document.body.appendChild( stats.domElement );
 
     $(window).on('resize', resizeHandler);
     submitHandler(webgl);
@@ -39,8 +47,6 @@ function submitHandler(webgl){
 
     var indexAudio = 0
     $('input[name="sentence"]').on('keypress', function(){
-            
-            console.log(indexAudio);
             audios[indexAudio].currentTime = 0;
             audios[indexAudio].play();    
             if(indexAudio < audios.length - 1){
@@ -50,11 +56,11 @@ function submitHandler(webgl){
                 indexAudio = 0;
             }
     });
-    
-    
 };
 
 function animate() {
+    stats.begin();
+    stats.end();
     requestAnimationFrame(animate);
     webgl.render();
 }
