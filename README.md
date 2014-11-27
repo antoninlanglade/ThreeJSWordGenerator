@@ -1,17 +1,9 @@
-threejs-starter-kit
-===================
+##Words
 
-Three.js starter kit made for Three.js Workshop.  
-It uses Three.js, Greensock and Jquery as depencies.  
-I also added a few Three.js extra classes from the examples for post-processing.  
+Words is a three.js experiment made in 3 days as part as a workshop, at Gobelins, l'école de l'image.
 
-After cloning install all node dependencies :  
-`npm i`
+#Install
 
-Then install the libraries :  
-`bower install`
-
-Then launch gulp to build :  
-`gulp`
-
-You are good to go !
+Npm install
+Bower install
+Httpster
